@@ -1,9 +1,8 @@
 defmodule RumblWeb.UserController do
   use RumblWeb, :controller
-
+  import RumblWeb.Auth, only: [login: 2]
   alias Rumbl.Account
   alias Rumbl.Account.User
-  alias RumblWeb.Auth
 
   plug :authenticate when action in [:index, :show]
 
@@ -21,7 +20,7 @@ defmodule RumblWeb.UserController do
     case Account.create_user(user_params) do
       {:ok, user} ->
         conn
-        |> Auth.login(user) # Auto login on create
+        |> login(user) # Auto login on create
         |> put_flash(:info, "#{user.name} created!")
         |> redirect(to: user_path(conn, :show, user))
       {:error, %Ecto.Changeset{} = changeset} ->

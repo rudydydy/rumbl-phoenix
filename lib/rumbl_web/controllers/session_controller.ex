@@ -1,13 +1,13 @@
 defmodule RumblWeb.SessionController do
   use RumblWeb, :controller
-  alias RumblWeb.Auth
+  import RumblWeb.Auth, only: [login_by_username_and_pass: 4, logout: 1]
 
   def new(conn, _) do
     render conn, "new.html"
   end
 
   def create(conn, %{"session" => %{"username" => user, "password" => pass}}) do
-    case Auth.login_by_username_and_pass(conn, user, pass, repo: Repo) do
+    case login_by_username_and_pass(conn, user, pass, repo: Repo) do
       {:ok, conn} ->
         conn
         |> put_flash(:info, "Welcome back!")
@@ -21,7 +21,7 @@ defmodule RumblWeb.SessionController do
 
   def delete(conn, _) do
     conn
-    |> Auth.logout
+    |> logout
     |> redirect(to: page_path(conn, :index))
   end
 end

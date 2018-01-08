@@ -7,7 +7,7 @@ defmodule RumblWeb.Auth do
     Keyword.fetch!(opts, :repo)
   end
 
-  def call(conn, repo) do
+  def call(conn, _repo) do
     user_id = get_session(conn, :user_id)
     user = user_id && Account.get_user!(user_id)
     assign(conn, :current_user, user)
@@ -20,7 +20,7 @@ defmodule RumblWeb.Auth do
     |> configure_session(renew: true) # protect from attacker
   end
 
-  def login_by_username_and_pass(conn, username, given_pass, opts) do
+  def login_by_username_and_pass(conn, username, given_pass, _opts) do
     # repo = Keyword.fetch!(opts, :repo)
     user = Account.get_user_by_username(username)
     cond do
