@@ -37,6 +37,8 @@ defmodule Rumbl.Account do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user_by_username(username), do: Repo.get_by(User, username: username)
+
   @doc """
   Creates a user.
 
@@ -51,7 +53,7 @@ defmodule Rumbl.Account do
   """
   def create_user(attrs \\ %{}) do
     %User{}
-    |> User.changeset(attrs)
+    |> User.registration_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -69,7 +71,7 @@ defmodule Rumbl.Account do
   """
   def update_user(%User{} = user, attrs) do
     user
-    |> User.changeset(attrs)
+    |> User.registration_changeset(attrs)
     |> Repo.update()
   end
 
