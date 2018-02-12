@@ -4,9 +4,11 @@ defmodule Rumbl.Movie do
   """
 
   import Ecto.Query, warn: false
+  import Ecto
   alias Rumbl.Repo
 
   alias Rumbl.Movie.Video
+  alias Rumbl.Account.User
 
   @doc """
   Returns the list of videos.
@@ -17,8 +19,10 @@ defmodule Rumbl.Movie do
       [%Video{}, ...]
 
   """
-  def list_videos do
-    Repo.all(Video)
+  def list_videos(user) do
+    user
+    |> assoc(:videos)
+    |> Repo.all
   end
 
   @doc """
@@ -35,7 +39,11 @@ defmodule Rumbl.Movie do
       ** (Ecto.NoResultsError)
 
   """
-  def get_video!(id), do: Repo.get!(Video, id)
+  def get_video!(user, id) do
+    user
+    |> assoc(:videos)
+    |> Repo.get!(id)
+  end
 
   @doc """
   Creates a video.
@@ -49,8 +57,9 @@ defmodule Rumbl.Movie do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_video(attrs \\ %{}) do
-    %Video{}
+  def create_video(user, attrs \\ %{}) do
+    user
+    |> build_assoc(:videos)
     |> Video.changeset(attrs)
     |> Repo.insert()
   end
@@ -98,6 +107,12 @@ defmodule Rumbl.Movie do
       %Ecto.Changeset{source: %Video{}}
 
   """
+  def change_video(%User{} = user, %Video{} = video) do
+    user
+    |> build_assoc(:videos)
+    |> Video.changeset(%{})
+  end
+
   def change_video(%Video{} = video) do
     Video.changeset(video, %{})
   end
