@@ -4,8 +4,6 @@ defmodule RumblWeb.VideoController do
   alias Rumbl.Movie
   alias Rumbl.Movie.Video
 
-  # plug :scrub_params, "video" when in [:create, :update]
-
   def index(conn, _params, user) do
     videos = Movie.list_videos(user)
     render(conn, "index.html", videos: videos)

@@ -8,7 +8,7 @@ defmodule Rumbl.Movie.Video do
     field :description, :string
     field :title, :string
     field :url, :string
-    
+
     belongs_to :user, User
 
     timestamps()
@@ -21,6 +21,5 @@ defmodule Rumbl.Movie.Video do
   def changeset(%Video{} = video, attrs) do
     video
     |> cast(attrs, @required_fields, @optional_fields)
-    |> validate_required([:url, :title, :description])
   end
 end
