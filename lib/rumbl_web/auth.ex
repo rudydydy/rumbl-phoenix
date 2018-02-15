@@ -44,14 +44,23 @@ defmodule RumblWeb.Auth do
     configure_session(conn, drop: true)
   end
 
-  def authenticate_user(conn, _opts) do
-    if conn.assigns.current_user do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You must be logged in to access that page")
-      |> redirect(to: Helpers.page_path(conn, :index))
-      |> halt()
-    end
+  # def authenticate_user(conn, _opts) do
+  #   if conn.assigns.current_user do
+  #     conn
+  #   else
+  #     conn
+  #     |> put_flash(:error, "You must be logged in to access that page")
+  #     |> redirect(to: Helpers.page_path(conn, :index))
+  #     |> halt()
+  #   end
+  # end
+
+  def authenticate_user(conn = %{ assigns: %{ current_user: user }}, _opts) when is_nil(user) do
+    conn
+    |> put_flash(:error, "You must be logged in to access that page")
+    |> redirect(to: Helpers.page_path(conn, :index))
+    |> halt()
   end
+
+  def authenticate_user(conn, _opts), do: conn
 end

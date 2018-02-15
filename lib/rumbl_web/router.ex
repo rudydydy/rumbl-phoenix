@@ -25,6 +25,7 @@ defmodule RumblWeb.Router do
   scope "/manage", RumblWeb do
     pipe_through [:browser, :authenticate_user]
 
+    resources "/categories", CategoryController
     resources "/videos", VideoController
   end
 
