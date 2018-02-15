@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Url</th>
+      <th>Category</th>
       <th>Title</th>
       <th>Description</th>
       <th></th>
@@ -13,6 +14,7 @@
 <%= for video <- @videos do %>
     <tr>
       <td><%= video.url %></td>
+      <td><%= if video.category, do: video.category.name, else: "-" %></td>
       <td><%= video.title %></td>
       <td><%= video.description %></td>
       <td class="text-right">

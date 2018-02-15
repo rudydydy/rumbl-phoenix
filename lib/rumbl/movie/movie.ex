@@ -23,6 +23,7 @@ defmodule Rumbl.Movie do
     user
     |> assoc(:videos)
     |> Repo.all
+    |> Repo.preload(:category)
   end
 
   @doc """
