@@ -28,7 +28,9 @@ defmodule Rumbl.Account.User do
     model
     |> changeset(params)
     |> cast(params, ~w(password), [])
+    |> validate_length(:username, min: 3, max: 20)
     |> validate_length(:password, min: 6, max: 100)
+    |> unique_constraint(:username)
     |> put_pass_hash
   end
 
