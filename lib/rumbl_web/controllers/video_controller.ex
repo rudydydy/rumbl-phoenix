@@ -2,7 +2,6 @@ defmodule RumblWeb.VideoController do
   use RumblWeb, :controller
 
   alias Rumbl.Movie
-  alias Rumbl.Movie.Video
   alias Rumbl.Genre
 
   plug :load_categories when action in [:new, :create, :edit, :update]
@@ -13,7 +12,7 @@ defmodule RumblWeb.VideoController do
   end
 
   def new(conn, _params, user) do
-    changeset = Movie.change_video(user, %Video{})
+    changeset = Movie.change_video(user)
     render(conn, "new.html", changeset: changeset)
   end
 

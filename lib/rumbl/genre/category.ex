@@ -6,7 +6,7 @@ defmodule Rumbl.Genre.Category do
 
   schema "categories" do
     field :name, :string
-
+    field :video_count, :integer, virtual: true, default: 0
     has_many :videos, Video, on_delete: :delete_all
 
     timestamps()

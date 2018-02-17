@@ -108,7 +108,7 @@ defmodule Rumbl.Movie do
       %Ecto.Changeset{source: %Video{}}
 
   """
-  def change_video(%User{} = user, %Video{} = video) do
+  def change_video(%User{} = user) do
     user
     |> build_assoc(:videos)
     |> Video.changeset(%{})

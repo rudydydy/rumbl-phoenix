@@ -33,7 +33,15 @@ defmodule Rumbl.Genre do
 
   """
   def list_categories do
-    Repo.all(Category)
+    query = from(c in Category,
+      left_join: v in assoc(c, :videos),
+      group_by: c.id,
+      select: %{
+        struct(c, [:id, :name]) |
+        video_count: fragment("COUNT(?)", v.id)
+      })
+
+    Repo.all(query)
   end
 
   @doc """
