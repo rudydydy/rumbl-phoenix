@@ -6,7 +6,7 @@ defmodule Rumbl.GenreTest do
   describe "categories" do
     alias Rumbl.Genre.Category
 
-    @valid_attrs %{name: "some name"}
+    @valid_attrs %{name: "some name", inserted_at: nil, updated_at: nil}
     @update_attrs %{name: "some updated name"}
     @invalid_attrs %{name: nil}
 
