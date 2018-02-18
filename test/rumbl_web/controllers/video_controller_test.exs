@@ -44,7 +44,7 @@ defmodule RumblWeb.VideoControllerTest do
 
   @tag login_as: "max"
   test "create user video and redirects", %{conn: conn, user: user} do
-    conn = post conn, video_path(conn, :create), video: @valid_attrs
+    post conn, video_path(conn, :create), video: @valid_attrs
     # assert redirected_to(conn) == video_path(conn, :show)
     assert Repo.get_by!(Video, @valid_attrs).user_id == user.id
   end

@@ -6,7 +6,7 @@ defmodule Rumbl.GenreTest do
   describe "categories" do
     alias Rumbl.Genre.Category
 
-    @valid_attrs %{name: "some name", inserted_at: nil, updated_at: nil}
+    @valid_attrs %{name: "some name"}
     @update_attrs %{name: "some updated name"}
     @invalid_attrs %{name: nil}
 
@@ -21,7 +21,7 @@ defmodule Rumbl.GenreTest do
 
     test "list_categories/0 returns all categories" do
       category = category_fixture()
-      assert Genre.list_categories() == [category]
+      assert Enum.map(Genre.list_categories(), &(&1.id)) == Enum.map([category], &(&1.id))
     end
 
     test "get_category!/1 returns the category with given id" do

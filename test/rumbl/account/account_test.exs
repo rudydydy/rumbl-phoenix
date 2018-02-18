@@ -6,8 +6,8 @@ defmodule Rumbl.AccountTest do
   describe "users" do
     alias Rumbl.Account.User
 
-    @valid_attrs %{name: "some name", password: "some password", username: "some username"}
-    @update_attrs %{name: "some updated name", password: "some updated password", username: "some updated username"}
+    @valid_attrs %{name: "some name", username: "some username"}
+    @update_attrs %{name: "updated name", username: "updated username"}
     @invalid_attrs %{name: nil, password: nil, username: nil}
 
     def user_fixture(attrs \\ %{}) do
@@ -31,9 +31,8 @@ defmodule Rumbl.AccountTest do
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Account.create_user(@valid_attrs)
-      assert user.name == "some name"
-      assert user.password == "some password"
-      assert user.username == "some username"
+      assert user.name == @valid_attrs[:name]
+      assert user.username == @valid_attrs[:username]
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -44,9 +43,8 @@ defmodule Rumbl.AccountTest do
       user = user_fixture()
       assert {:ok, user} = Account.update_user(user, @update_attrs)
       assert %User{} = user
-      assert user.name == "some updated name"
-      assert user.password == "some updated password"
-      assert user.username == "some updated username"
+      assert user.name == @update_attrs[:name]
+      assert user.username == @update_attrs[:username]
     end
 
     test "update_user/2 with invalid data returns error changeset" do
