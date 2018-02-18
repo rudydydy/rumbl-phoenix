@@ -20,7 +20,7 @@ defmodule Rumbl.Movie.Video do
   @optional_fields ~w(category_id)a
 
   @doc false
-  def changeset(%Video{} = video, attrs) do
+  def changeset(%Video{} = video, attrs \\ %{}) do
     video
     |> cast(attrs, (@required_fields ++ @optional_fields))
     |> validate_required(@required_fields)

@@ -4,7 +4,8 @@ defmodule RumblWeb.UserController do
   alias Rumbl.Account
   alias Rumbl.Account.User
 
-  plug :authenticate_user when action in [:index, :show]
+  plug :authenticate_user when action in [:index, :show, :edit, :update, :delete]
+  plug :authorize_request when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
     users = Account.list_users()
@@ -59,5 +60,16 @@ defmodule RumblWeb.UserController do
     conn
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: user_path(conn, :index))
+  end
+
+  defp authorize_request(conn = %{ params: %{ id: id }, assigns: %{ current_user: %{ id: user_id } }}, _opts) when user_id == id do
+    conn
+  end 
+
+  defp authorize_request(conn, _opts) do
+    conn
+    |> put_flash(:error, "You are not authorized")
+    |> redirect(to: user_path(conn, :index))
+    |> halt()
   end
 end
