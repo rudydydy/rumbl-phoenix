@@ -3,7 +3,7 @@ defmodule RumblWeb.UserControllerTest do
   import Plug.Conn
 
   @create_attrs %{name: "some name", password: "some password", username: "some username"}
-  @update_attrs %{name: "updated name", password: "some updated password", username: "updated username"}
+  @update_attrs %{name: "updated name", passwod: "updated password", username: "updated username"}
   @invalid_attrs %{name: nil, password: nil, username: nil}
 
   setup %{conn: conn} do
@@ -50,20 +50,20 @@ defmodule RumblWeb.UserControllerTest do
     end
   end
 
-  # describe "update user" do
-  #   test "redirects when data is valid", %{conn: conn, user: user} do
-  #     conn = put conn, user_path(conn, :update, user), user: @create_attrs
-  #     assert redirected_to(conn) == user_path(conn, :show, user)
+  describe "update user" do
+    test "redirects when data is valid", %{conn: conn, user: user} do
+      conn = put conn, user_path(conn, :update, user), user: @update_attrs
+      assert redirected_to(conn) == user_path(conn, :show, user)
+      
+      conn = get conn, user_path(conn, :show, user)
+      assert html_response(conn, 200) =~ @update_attrs[:name]
+    end
 
-  #     conn = get conn, user_path(conn, :show, user)
-  #     assert html_response(conn, 200) =~ @update_attrs[:name]
-  #   end
-
-  #   test "renders errors when data is invalid", %{conn: conn, user: user} do
-  #     conn = put conn, user_path(conn, :update, user), user: @invalid_attrs
-  #     assert html_response(conn, 200) =~ "Edit User"
-  #   end
-  # end
+    test "renders errors when data is invalid", %{conn: conn, user: user} do
+      conn = put conn, user_path(conn, :update, user), user: @invalid_attrs
+      assert html_response(conn, 200) =~ "Edit User"
+    end
+  end
 
   describe "delete user" do
     test "deletes chosen user", %{conn: conn, user: user} do

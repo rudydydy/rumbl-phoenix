@@ -61,15 +61,15 @@ defmodule RumblWeb.UserController do
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: user_path(conn, :index))
   end
-
-  defp authorize_request(conn = %{ params: %{ id: id }, assigns: %{ current_user: %{ id: user_id } }}, _opts) when user_id == id do
-    conn
+  
+  defp authorize_request(conn = %{ params: %{ "id" => id }, assigns: %{ current_user: %{ id: user_id } }}, _opts) do
+    if String.to_integer(id) == user_id do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You are not authorized")
+      |> redirect(to: user_path(conn, :new))
+      |> halt()
+    end
   end 
-
-  defp authorize_request(conn, _opts) do
-    conn
-    |> put_flash(:error, "You are not authorized")
-    |> redirect(to: user_path(conn, :index))
-    |> halt()
-  end
 end

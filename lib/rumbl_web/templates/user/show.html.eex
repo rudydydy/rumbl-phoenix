@@ -12,11 +12,6 @@
     <%= @user.username %>
   </li>
 
-  <li>
-    <strong>Password:</strong>
-    <%= @user.password %>
-  </li>
-
 </ul>
 
 <span><%= link "Edit", to: user_path(@conn, :edit, @user) %></span>
