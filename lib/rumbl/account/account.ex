@@ -37,6 +37,19 @@ defmodule Rumbl.Account do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  @doc """
+  Gets a single user by username.
+
+  ## Examples
+
+      iex> get_user_by_username("max")
+      %User{}
+
+      iex> get_user_by_username("max")
+      nil
+
+  """
+
   def get_user_by_username(username), do: Repo.get_by(User, username: username)
 
   @doc """

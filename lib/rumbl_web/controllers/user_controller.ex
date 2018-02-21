@@ -57,9 +57,7 @@ defmodule RumblWeb.UserController do
     user = Account.get_user!(id)
     {:ok, _user} = Account.delete_user(user)
 
-    conn
-    |> put_flash(:info, "User deleted successfully.")
-    |> redirect(to: user_path(conn, :index))
+    determine_session(conn, user)
   end
   
   defp authorize_request(conn = %{ params: %{ "id" => id }, assigns: %{ current_user: %{ id: user_id } }}, _opts) do
@@ -68,8 +66,21 @@ defmodule RumblWeb.UserController do
     else
       conn
       |> put_flash(:error, "You are not authorized")
-      |> redirect(to: user_path(conn, :new))
+      |> redirect(to: user_path(conn, :index))
       |> halt()
     end
   end 
+
+  defp determine_session(conn = %{ assigns: %{ current_user: %{ id: current_user_id }}}, %{ id: user_id }) 
+    when current_user_id == user_id do
+    conn
+    |> logout
+    |> redirect(to: page_path(conn, :index))
+  end
+
+  defp determine_session(conn, _user) do
+    conn
+    |> put_flash(:info, "User deleted successfully.")
+    |> redirect(to: user_path(conn, :index))
+  end
 end
