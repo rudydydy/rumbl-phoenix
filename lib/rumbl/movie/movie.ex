@@ -40,10 +40,14 @@ defmodule Rumbl.Movie do
       ** (Ecto.NoResultsError)
 
   """
-  def get_video!(user, id) do
+  def get_video!(%User{} = user, id) do
     user
     |> assoc(:videos)
-    |> Repo.get!(id)
+    |> Repo.get_by!(slug: id)
+  end
+
+  def get_video_by_slug(slug) do
+    Repo.get_by(Video, slug: slug)
   end
 
   @doc """

@@ -10,14 +10,14 @@ defmodule RumblWeb.ErrorHelpers do
   """
   def error_tag(form, field) do
     Enum.map(Keyword.get_values(form.errors, field), fn (error) ->
-      content_tag :span, translate_error(error), class: "help-block"
+      content_tag :span, translate_error(error, field), class: "help-block"
     end)
   end
 
   @doc """
   Translates an error message using gettext.
   """
-  def translate_error({msg, opts}) do
+  def translate_error({msg, opts}, field \\ "") do
     # Because error messages were defined within Ecto, we must
     # call the Gettext module passing our Gettext backend. We
     # also use the "errors" domain as translations are placed
@@ -34,7 +34,7 @@ defmodule RumblWeb.ErrorHelpers do
     if count = opts[:count] do
       Gettext.dngettext(RumblWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(RumblWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(RumblWeb.Gettext, "errors", "#{field} #{msg}", opts)
     end
   end
 end
