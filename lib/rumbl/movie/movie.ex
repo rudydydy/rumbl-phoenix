@@ -46,6 +46,18 @@ defmodule Rumbl.Movie do
     |> Repo.get_by!(slug: id)
   end
 
+  @doc """
+  Gets a single video by slug attribute.
+
+  ## Examples
+
+      iex> get_video_by_slug("apple")
+      %Video{}
+
+      iex> get_video_by_slug("apple")
+      nil
+
+  """
   def get_video_by_slug(slug) do
     Repo.get_by(Video, slug: slug)
   end
