@@ -10,10 +10,12 @@ defmodule RumblWeb.VideoChannel do
     {:error, %{reason: "unauthorized"}}
   end
 
-  def handle_in("ping", _payload, socket) do
-    count = socket.assigns[:count] || 1 
-    push socket, "ping", %{count: count}
-    
-    {:noreply, assign(socket, :count, count + 1)}
+  def handle_in("new_annotation", %{"body" => body, "at" => at}, socket) do
+    broadcast! socket, "new_annotation", %{
+      user: %{username: "anon"},
+      body: body,
+      at: at
+    }
+    {:reply, :ok, socket}
   end
 end
