@@ -5,12 +5,15 @@ defmodule Rumbl.Movie.Video do
   alias Rumbl.Movie.Video
   alias Rumbl.Account.User
   alias Rumbl.Genre.Category
-
+  alias Rumbl.Comment.Annotation
+  
   schema "videos" do
     field :description, :string
     field :title, :string
     field :url, :string
     field :slug, :string
+
+    has_many :annotations, Annotation
 
     belongs_to :user, User
     belongs_to :category, Category

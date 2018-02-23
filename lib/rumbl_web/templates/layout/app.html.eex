@@ -39,7 +39,7 @@
 
     </div> <!-- /container -->
     <%= if @user_token do %>
-    <script>window.userToken = <%= @user_token %></script>
+    <script>window.userToken = "<%= @user_token %>"</script>
     <% end %>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>

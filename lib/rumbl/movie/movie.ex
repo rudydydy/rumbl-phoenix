@@ -19,7 +19,7 @@ defmodule Rumbl.Movie do
       [%Video{}, ...]
 
   """
-  def list_videos(user) do
+  def list_videos(%User{} = user) do
     user
     |> assoc(:videos)
     |> Repo.all
@@ -44,6 +44,10 @@ defmodule Rumbl.Movie do
     user
     |> assoc(:videos)
     |> Repo.get_by!(slug: id)
+  end
+
+  def get_video!(id) do
+    Repo.get!(Video, id)
   end
 
   @doc """
@@ -74,7 +78,7 @@ defmodule Rumbl.Movie do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_video(user, attrs \\ %{}) do
+  def create_video(%User{} = user, attrs \\ %{}) do
     user
     |> build_assoc(:videos)
     |> Video.changeset(attrs)

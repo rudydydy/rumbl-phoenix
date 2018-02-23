@@ -4,6 +4,7 @@ defmodule Rumbl.Account.User do
   import Comeonin.Argon2, only: [hashpwsalt: 1]
   alias Rumbl.Account.User
   alias Rumbl.Movie.Video
+  alias Rumbl.Comment.Annotation
 
   schema "users" do
     field :name, :string
@@ -12,7 +13,8 @@ defmodule Rumbl.Account.User do
     field :username, :string
 
     has_many :videos, Video
-
+    has_many :annotations, Annotation
+    
     timestamps()
   end
 
