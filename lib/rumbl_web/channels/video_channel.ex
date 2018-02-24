@@ -7,7 +7,7 @@ defmodule RumblWeb.VideoChannel do
   alias Rumbl.Comment
   alias RumblWeb.UserView
   alias RumblWeb.AnnotationView
-  
+
   def join("videos:" <> video_id, payload, socket) do
     last_seen_id = payload["last_seen_id"] || 0
     video_id = String.to_integer(video_id)
@@ -26,16 +26,30 @@ defmodule RumblWeb.VideoChannel do
 
   def handle_in("new_annotation", %{"body" => body, "at" => at}, user, socket = %{ assigns: %{ video_id: video_id }}) do
     case Comment.create_annotation(user, %{body: body, at: at, video_id: video_id}) do
-      {:ok, comment} ->
-        broadcast! socket, "new_annotation", %{
-          id: comment.id,
-          user: UserView.render("user.json", %{user: user}),
-          body: comment.body,
-          at: comment.at
-        }
+      {:ok, annotation} ->
+        broadcast_annotation(socket, annotation)
+        Task.start_link(fn -> compute_additional_info(annotation, socket) end)
         {:reply, :ok, socket}
       {:error, changeset} ->
         {:reply, {:error, %{errors: changeset}}, socket}
+    end
+  end
+
+  defp broadcast_annotation(socket, annotation) do
+    annotation = Comment.get_annotation_user(annotation)
+    rendered_ann = Phoenix.View.render(AnnotationView, "annotation.json", %{
+      annotation: annotation
+    })
+    broadcast! socket, "new_annotation", rendered_ann
+  end
+
+  defp compute_additional_info(ann, socket) do
+    for result <- Rumbl.InfoSys.compute(ann.body, limit: 1, timeout: 10_000) do
+      attrs = %{url: result.url, body: result.text, at: ann.at, video_id: ann.video_id}
+      case Comment.create_worlfram_feedback(result.backend, attrs) do
+        {:ok, info_ann} -> broadcast_annotation(socket, info_ann)
+        {:error, _changeset} -> :ignore
+      end
     end
   end
 end

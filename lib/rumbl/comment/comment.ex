@@ -9,6 +9,7 @@ defmodule Rumbl.Comment do
 
   alias Rumbl.Comment.Annotation
   alias Rumbl.Movie.Video
+  alias Rumbl.Account
   alias Rumbl.Account.User
 
   @doc """
@@ -52,6 +53,8 @@ defmodule Rumbl.Comment do
   """
   def get_annotation!(id), do: Repo.get!(Annotation, id)
 
+  def get_annotation_user(annotation), do: Repo.preload(annotation, :user)
+
   @doc """
   Creates a annotation.
 
@@ -68,6 +71,13 @@ defmodule Rumbl.Comment do
     user
     |> build_assoc(:annotations)
     |> Annotation.changeset(attrs)
+    |> Repo.insert
+  end
+
+  def create_worlfram_feedback("wolfram", attrs \\ %{}) do
+    Account.get_user_by_username("wolfram")
+    |> build_assoc(:annotations)
+    |> Rumbl.Annotation.changeset(attrs)
     |> Repo.insert
   end
 

@@ -15,3 +15,5 @@ alias Rumbl.Genre
 for category <- ~w(Action Drama Romance Comedy Sci-fi) do
   Genre.get_category_by_name!(category) || Genre.create_category(%{ name: category })
 end
+
+Rumbl.Repo.insert!(%Rumbl.Account.User{name: "Wolfram", username: "wolfram"})
