@@ -22,5 +22,5 @@ defmodule RumblWeb.UserSocket do
 
   def connect(_params, _socket), do: :error
 
-  def id(socket), do: "users_socket:#{socket.assigns.user_id}"
+  def id(%{ assigns: %{ user_id: user_id }}), do: "users_socket:#{user_id}"
 end

@@ -6,10 +6,9 @@ defmodule RumblWeb.Auth do
   alias RumblWeb.Router.Helpers
 
   def init(_opts) do
-    # Keyword.fetch!(opts, :repo)
   end
 
-  def call(conn, _repo) do
+  def call(conn, _opts) do
     user_id = get_session(conn, :user_id)
     # user = user_id && Account.get_user!(user_id)
     # assign(conn, :current_user, user)

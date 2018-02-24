@@ -14,9 +14,13 @@
       </div>
       <div class="panel-footer">
         <textarea id="msg-input" rows="3" class="form-control" placeholder="Comment..."></textarea>
-        <button id="msg-submit" class="btn btn-primary form-control" type="submit">
-          Post
-        </button>
+        <%= if @current_user do %>
+          <button id="msg-submit" class="btn btn-primary form-control" type="submit">
+            Post
+          </button>
+        <% else %>
+          <%= link "Post", to: session_path(@conn, :new), class: "btn btn-primary form-control" %>
+        <% end %>
       </div>
     </div>
   </div>
