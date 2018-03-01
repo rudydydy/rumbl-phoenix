@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  pg_db:
+    image: postgres:9.6-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecretrumblpassword
+    volumes:
+      - app_db:/var/lib/postgresql/data
+
+  app:
+    build: .
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./:/app
+    depends_on:
+      - pg_db
+
+volumes:
+  app_db:

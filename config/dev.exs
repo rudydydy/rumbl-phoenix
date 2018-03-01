@@ -52,9 +52,9 @@ config :phoenix, :stacktrace_depth, 20
 config :rumbl, Rumbl.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
+  password: "supersecretrumblpassword",
   database: "rumbl_dev",
-  hostname: "localhost",
+  hostname: "pg_db",
   pool_size: 10
 
 import_config "dev.secret.exs"
