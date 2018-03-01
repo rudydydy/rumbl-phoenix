@@ -11,9 +11,11 @@
 # and so on) as they will fail if something goes wrong.
 
 alias Rumbl.Genre
+alias Rumbl.Account
 
 for category <- ~w(Action Drama Romance Comedy Sci-fi) do
   Genre.get_category_by_name(category) || Genre.create_category(%{ name: category })
 end
 
-Rumbl.Repo.insert!(%Rumbl.Account.User{name: "Wolfram", username: "wolfram"})
+changeset = %Rumbl.Account.User{name: "Wolfram", username: "wolfram"}
+Account.get_user_by_username("wolfram") || Rumbl.Repo.insert!(changeset)

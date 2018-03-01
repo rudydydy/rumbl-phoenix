@@ -29,7 +29,7 @@ WORKDIR /app/assets
 
 COPY ./assets/package.json ./assets/package-lock.json ./
 
-RUN npm i 
+RUN npm i && npm cache clean
 
 WORKDIR /app
 
