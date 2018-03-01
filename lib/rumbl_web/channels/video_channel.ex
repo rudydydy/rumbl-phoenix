@@ -5,7 +5,6 @@ defmodule RumblWeb.VideoChannel do
   alias Rumbl.Account
   alias Rumbl.Movie
   alias Rumbl.Comment
-  alias RumblWeb.UserView
   alias RumblWeb.AnnotationView
 
   def join("videos:" <> video_id, payload, socket) do

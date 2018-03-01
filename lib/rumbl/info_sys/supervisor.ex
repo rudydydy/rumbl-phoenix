@@ -5,7 +5,7 @@ defmodule Rumbl.InfoSys.Supervisor do
     Supervisor.start_link(__MODULE__, [], name: __MODULE__)
   end
 
-  def init(opts) do
+  def init(_opts) do
     children = [
       worker(Rumbl.InfoSys, [], restart: :temporary)
     ]

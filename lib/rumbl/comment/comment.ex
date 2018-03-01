@@ -77,7 +77,7 @@ defmodule Rumbl.Comment do
   def create_worlfram_feedback("wolfram", attrs \\ %{}) do
     Account.get_user_by_username("wolfram")
     |> build_assoc(:annotations)
-    |> Rumbl.Annotation.changeset(attrs)
+    |> Annotation.changeset(attrs)
     |> Repo.insert
   end
 
