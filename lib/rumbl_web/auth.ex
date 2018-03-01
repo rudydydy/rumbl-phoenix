@@ -5,7 +5,8 @@ defmodule RumblWeb.Auth do
   alias Rumbl.Account
   alias RumblWeb.Router.Helpers
 
-  def init(_opts) do
+  def init(opts) do
+    opts
   end
 
   def call(conn, _opts) do
