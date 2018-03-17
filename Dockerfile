@@ -1,14 +1,12 @@
+
+
 FROM elixir:1.6-alpine
 
-MAINTAINER rudydydy <phang.rudy94@gmail.com>
-
-WORKDIR /app/assets
-
-COPY ./assets/package.json ./assets/package-lock.json ./
+LABEL maintainer="Rudy Pangestu <phang.rudy94@gmail.com>"
 
 WORKDIR /app
 
-COPY mix.exs mix.lock ./
+COPY . .
 
 RUN apk update \
     && apk add --no-cache --update \
@@ -26,9 +24,10 @@ RUN apk update \
     && cd /app/deps/argon2_elixir \
     && make clean && make \
     && cd /app/assets \
-    && npm i && npm cache clean --force
-
-COPY . .
+    && npm i && npm cache clean --force \
+    && npm run deploy \
+    && cd /app \
+    && mix phx.digest
 
 EXPOSE 4000
 
